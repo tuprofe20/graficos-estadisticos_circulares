@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>TuProfe20 Lab - Gráficos Estadísticos II</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
@@ -15,9 +15,10 @@
     <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
     
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap');
         
-        body { margin: 0; padding: 0; overflow: hidden; width: 100vw; height: 100dvh; user-select: none; }
+        * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
+        body { margin: 0; padding: 0; overflow: hidden; width: 100vw; height: 100dvh; user-select: none; background: #1e1b4b; }
         .font-fun { font-family: 'Nunito', sans-serif; }
         
         @keyframes floatUp { 
@@ -25,7 +26,7 @@
             100% { transform: translateY(-105vh) rotate(360deg); } 
         }
         @keyframes slideInRight { 
-            0% { opacity: 0; transform: translateX(15px); } 
+            0% { opacity: 0; transform: translateX(12px); } 
             100% { opacity: 1; transform: translateX(0); } 
         }
         @keyframes confettiExplosion { 
@@ -34,45 +35,37 @@
             100% { transform: translate(var(--tx), var(--ty)) scale(0) rotate(var(--rot)); opacity: 0; } 
         }
         @keyframes jellyPop {
-            0% { transform: scale3d(.3, .3, .3); opacity: 0; }
-            20% { transform: scale3d(1.18, 1.18, 1.18); }
-            40% { transform: scale3d(.92, .92, .92); }
-            60% { transform: scale3d(1.06, 1.06, 1.06); opacity: 1; }
-            80% { transform: scale3d(.97, .97, .97); }
+            0% { transform: scale3d(.85, .85, .85); opacity: 0; }
+            45% { transform: scale3d(1.04, 1.04, 1.04); opacity: 1; }
+            75% { transform: scale3d(.98, .98, .98); }
             100% { transform: scale3d(1, 1, 1); opacity: 1; }
         }
-        @keyframes robotFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
-        @keyframes robotThinkTilt { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(6deg) translateY(-3px); } }
-        @keyframes robotJump { 0%, 100% { transform: translateY(0); } 30% { transform: translateY(-15px); } }
-        @keyframes robotTalkArmL { 0%, 100% { transform: rotate(45deg); } 50% { transform: rotate(95deg); } }
-        @keyframes robotTalkArmR { 0%, 100% { transform: rotate(-45deg); } 50% { transform: rotate(-95deg); } }
+        @keyframes robotFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+        @keyframes robotJump { 0%, 100% { transform: translateY(0); } 30% { transform: translateY(-12px); } }
 
-        /* Clases para ocultar el scrollbar */
         .scrollbar-hide::-webkit-scrollbar { display: none; }
         .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
 
         .animate-floatUp { animation: floatUp linear infinite; }
-        .animate-slideInRight { animation: slideInRight 0.3s ease-out forwards; }
-        .animate-confettiExplosion { animation: confettiExplosion 1.8s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
-        .animate-jellyPop { animation: jellyPop 0.55s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
-        .animate-robotFloat { animation: robotFloat 3s ease-in-out infinite; }
-        .animate-robotThinkTilt { animation: robotThinkTilt 2s ease-in-out infinite; }
-        .animate-robotJump { animation: robotJump 1s cubic-bezier(0.28, 0.84, 0.42, 1) infinite; }
-        .animate-robotTalkArmL { animation: robotTalkArmL 0.6s ease-in-out infinite; }
-        .animate-robotTalkArmR { animation: robotTalkArmR 0.6s ease-in-out infinite 0.1s; }
+        .animate-slideInRight { animation: slideInRight 0.25s ease-out forwards; }
+        .animate-confettiExplosion { animation: confettiExplosion 1.6s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
+        .animate-jellyPop { animation: jellyPop 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        .animate-robotFloat { animation: robotFloat 2.8s ease-in-out infinite; }
+        .animate-robotJump { animation: robotJump 0.9s cubic-bezier(0.28, 0.84, 0.42, 1) infinite; }
 
-        /* KaTeX Adaptable Styles */
+        /* KaTeX Grande y Nítido sin desbordes */
         .katex { font-weight: 900 !important; }
-        .katex-display { margin: 0 !important; padding: 0 !important; }
+        .katex-display { margin: 0 !important; padding: 0 !important; overflow-x: auto; overflow-y: hidden; }
         
-        .math-enunciado .katex { font-size: clamp(0.95rem, 1.8vw, 1.35rem) !important; color: #ffffff !important; }
-        .math-current .katex { font-size: clamp(1.05rem, 2.1vw, 1.65rem) !important; color: #0f172a !important; }
-        .math-final .katex { font-size: clamp(1.15rem, 2.3vw, 1.85rem) !important; color: #0f172a !important; }
+        .math-enunciado .katex { font-size: clamp(1rem, 2.6vw, 1.45rem) !important; color: #fde047 !important; }
+        .math-current .katex { font-size: clamp(1.12rem, 3.6vw, 1.85rem) !important; color: #0f172a !important; line-height: 1.35 !important; }
+        .math-final .katex { font-size: clamp(1.2rem, 3.8vw, 2rem) !important; color: #0f172a !important; line-height: 1.35 !important; }
 
-        /* Estilos de Contraste para SVG */
-        .chart-label {
+        /* Etiquetas grandes de alto contraste para el gráfico SVG */
+        .chart-label-title {
             font-family: 'Nunito', sans-serif;
             font-weight: 900;
+            font-size: 15.5px;
             fill: #0f172a;
             stroke: #ffffff;
             stroke-width: 4.5px;
@@ -81,13 +74,29 @@
             dominant-baseline: middle;
             pointer-events: none;
         }
-        .sector-path {
-            transition: filter 0.3s ease;
+        .chart-label-value {
+            font-family: 'Nunito', sans-serif;
+            font-weight: 900;
+            font-size: 17px;
+            fill: #0f172a;
             stroke: #ffffff;
-            stroke-width: 2.5;
+            stroke-width: 5px;
+            paint-order: stroke fill;
+            text-anchor: middle;
+            dominant-baseline: middle;
+            pointer-events: none;
         }
-        .sector-path:hover {
-            filter: brightness(1.06);
+        .sector-group {
+            cursor: pointer;
+            transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.2s ease;
+        }
+        .sector-group:hover {
+            filter: brightness(1.07);
+        }
+        .sector-path {
+            stroke: #ffffff;
+            stroke-width: 3;
+            stroke-linejoin: round;
         }
     </style>
 </head>
@@ -101,7 +110,6 @@
             <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill={fill} stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" className={className} dangerouslySetInnerHTML={{__html: paths}} />
         );
 
-        const Zap = (p) => <Icon {...p} paths='<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>' />;
         const VolumeX = (p) => <Icon {...p} paths='<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/>' />;
         const Volume2 = (p) => <Icon {...p} paths='<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>' />;
         const Rocket = (p) => <Icon {...p} paths='<path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/>' />;
@@ -110,56 +118,82 @@
         const ChevronLeft = (p) => <Icon {...p} paths='<polyline points="15 18 9 12 15 6"/>' />;
         const ChevronRight = (p) => <Icon {...p} paths='<polyline points="9 18 15 12 9 6"/>' />;
 
+        // Controlador de Sonido y Voz
         const AudioController = {
             ctx: null, muted: false,
             init: function() {
-                if (this.ctx) return;
-                const AudioContext = window.AudioContext || window.webkitAudioContext;
-                if (AudioContext) this.ctx = new AudioContext();
+                if (!this.ctx) {
+                    const AudioContext = window.AudioContext || window.webkitAudioContext;
+                    if (AudioContext) this.ctx = new AudioContext();
+                }
+                if (this.ctx && this.ctx.state === 'suspended') {
+                    this.ctx.resume();
+                }
             },
             play: function(type) {
+                this.init();
                 if (this.muted || !this.ctx) return;
-                if (this.ctx.state === 'suspended') this.ctx.resume();
-                const osc = this.ctx.createOscillator();
-                const gain = this.ctx.createGain();
-                osc.connect(gain); gain.connect(this.ctx.destination);
                 const now = this.ctx.currentTime;
                 
                 if (type === 'pop') {
-                    osc.type = 'sine'; osc.frequency.setValueAtTime(500, now); osc.frequency.exponentialRampToValueAtTime(800, now + 0.1);
-                    gain.gain.setValueAtTime(0.25, now); gain.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
-                    osc.start(now); osc.stop(now + 0.1);
+                    const osc = this.ctx.createOscillator(); const gain = this.ctx.createGain();
+                    osc.connect(gain); gain.connect(this.ctx.destination);
+                    osc.type = 'sine'; osc.frequency.setValueAtTime(520, now); osc.frequency.exponentialRampToValueAtTime(880, now + 0.09);
+                    gain.gain.setValueAtTime(0.25, now); gain.gain.exponentialRampToValueAtTime(0.01, now + 0.09);
+                    osc.start(now); osc.stop(now + 0.09);
                 } else if (type === 'pop-reverse') {
-                    osc.type = 'triangle'; osc.frequency.setValueAtTime(650, now); osc.frequency.exponentialRampToValueAtTime(280, now + 0.12);
-                    gain.gain.setValueAtTime(0.2, now); gain.gain.exponentialRampToValueAtTime(0.01, now + 0.12);
-                    osc.start(now); osc.stop(now + 0.12);
+                    const osc = this.ctx.createOscillator(); const gain = this.ctx.createGain();
+                    osc.connect(gain); gain.connect(this.ctx.destination);
+                    osc.type = 'triangle'; osc.frequency.setValueAtTime(650, now); osc.frequency.exponentialRampToValueAtTime(300, now + 0.11);
+                    gain.gain.setValueAtTime(0.2, now); gain.gain.exponentialRampToValueAtTime(0.01, now + 0.11);
+                    osc.start(now); osc.stop(now + 0.11);
+                } else if (type === 'slice') {
+                    const osc = this.ctx.createOscillator(); const gain = this.ctx.createGain();
+                    osc.connect(gain); gain.connect(this.ctx.destination);
+                    osc.type = 'sine'; osc.frequency.setValueAtTime(620, now); osc.frequency.exponentialRampToValueAtTime(1150, now + 0.07);
+                    gain.gain.setValueAtTime(0.2, now); gain.gain.exponentialRampToValueAtTime(0.01, now + 0.07);
+                    osc.start(now); osc.stop(now + 0.07);
                 } else if (type === 'success') {
-                    osc.disconnect();
                     const notes = [523.25, 659.25, 783.99, 1046.50];
                     notes.forEach((freq, i) => {
                         const o = this.ctx.createOscillator(); const g = this.ctx.createGain();
                         o.type = 'triangle'; o.frequency.value = freq;
                         o.connect(g); g.connect(this.ctx.destination);
                         const startTime = now + (i * 0.07);
-                        g.gain.setValueAtTime(0, startTime); g.gain.linearRampToValueAtTime(0.2, startTime + 0.04); g.gain.linearRampToValueAtTime(0, startTime + 0.35);
+                        g.gain.setValueAtTime(0, startTime); g.gain.linearRampToValueAtTime(0.22, startTime + 0.03); g.gain.linearRampToValueAtTime(0, startTime + 0.35);
                         o.start(startTime); o.stop(startTime + 0.35);
                     });
                 } else if (type === 'swoosh') {
-                    osc.type = 'sine'; osc.frequency.setValueAtTime(280, now); osc.frequency.exponentialRampToValueAtTime(70, now + 0.18);
-                    gain.gain.setValueAtTime(0.2, now); gain.gain.linearRampToValueAtTime(0.01, now + 0.18);
-                    osc.start(now); osc.stop(now + 0.18);
+                    const osc = this.ctx.createOscillator(); const gain = this.ctx.createGain();
+                    osc.connect(gain); gain.connect(this.ctx.destination);
+                    osc.type = 'sine'; osc.frequency.setValueAtTime(320, now); osc.frequency.exponentialRampToValueAtTime(90, now + 0.16);
+                    gain.gain.setValueAtTime(0.2, now); gain.gain.linearRampToValueAtTime(0.01, now + 0.16);
+                    osc.start(now); osc.stop(now + 0.16);
                 }
             },
-            toggleMute: function() { this.muted = !this.muted; return this.muted; }
+            speak: function(text) {
+                if (this.muted || !('speechSynthesis' in window)) return;
+                window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'es-PE';
+                utterance.rate = 1.05;
+                utterance.pitch = 1.08;
+                window.speechSynthesis.speak(utterance);
+            },
+            toggleMute: function() {
+                this.muted = !this.muted;
+                if (this.muted && 'speechSynthesis' in window) window.speechSynthesis.cancel();
+                return this.muted;
+            }
         };
 
         const STATISTICAL_EXERCISES = [
             {
-                id: 11,
-                title: "Reto 11",
+                id: 1,
+                title: "Reto 1",
                 subtitle: "Deportes Favoritos",
                 cardBg: "from-[#ff9f1c] to-[#f77f00] border-[#ffbf69]",
-                enunciadoText: "De un grupo de 900 jóvenes, se registró su deporte favorito en el gráfico. ¿Cuántos jóvenes más prefieren Básquet que Fútbol?",
+                enunciadoText: "De un grupo de 900 jóvenes, se registró su deporte favorito. ¿Cuántos jóvenes más prefieren Básquet que Fútbol?",
                 enunciadoLatex: String.raw`\text{Total} = 900`,
                 baseSectors: [
                     { label: 'Natación', value: 120, color: '#06b6d4' },
@@ -176,13 +210,13 @@
                     {
                         propertyText: "Paso 2: Resolviendo el valor de r",
                         sectorTexts: ['120°', '11(15°)', '5(15°)'],
-                        latex: String.raw`\begin{aligned} 16r &= 360^{\circ} - 120^{\circ} \\ 16r &= 240^{\circ} \\ \textcolor{#e11d48}{\mathbf{r}} &\mathbf{= 15^{\circ}} \end{aligned}`,
+                        latex: String.raw`\begin{aligned} 16r &= 360^{\circ} - 120^{\circ} \\ 16r &= 240^{\circ} \implies \textcolor{#e11d48}{\mathbf{r = 15^{\circ}}} \end{aligned}`,
                         robotSpeech: "El 120° pasa a restar quedando 240°. Luego dividimos 240° entre 16 y descubrimos que r vale 15°."
                     },
                     {
                         propertyText: "Paso 3: Ángulos y Diferencia (Básquet - Fútbol)",
                         sectorTexts: ['120°', '165°', '75°'],
-                        latex: String.raw`\begin{aligned} \text{Básquet} &= 11(15^{\circ}) = 165^{\circ} \\ \text{Fútbol} &= 5(15^{\circ}) = 75^{\circ} \\ \text{Diferencia} &= 165^{\circ} - 75^{\circ} = \textcolor{#7c3aed}{\mathbf{90^{\circ}}} \end{aligned}`,
+                        latex: String.raw`\begin{aligned} \text{Básquet} &= 11(15^{\circ}) = 165^{\circ} \quad;\quad \text{Fútbol} = 5(15^{\circ}) = 75^{\circ} \\ \text{Diferencia} &= 165^{\circ} - 75^{\circ} = \textcolor{#7c3aed}{\mathbf{90^{\circ}}} \end{aligned}`,
                         robotSpeech: "Reemplazamos r = 15°: Básquet tiene 165° y Fútbol 75°. La diferencia entre ambos es de 90°."
                     },
                     {
@@ -193,15 +227,15 @@
                     },
                     {
                         propertyText: "Paso 5: Simplificación y Resultado",
-                        sectorTexts: ['300 jóv.', '412,5 / Dif: 225', '187,5 jóv.'],
-                        latex: String.raw`\begin{aligned} x &= \frac{\cancel{90}^{\textcolor{#e11d48}{1}} \cdot 900}{\cancel{360}_{\textcolor{#e11d48}{4}}} \\ x &= \frac{900}{4} = \mathbf{225\text{ jóvenes}} \end{aligned}`,
+                        sectorTexts: ['300 jóv.', 'Dif: 225', '187,5 jóv.'],
+                        latex: String.raw`\begin{aligned} x &= \frac{\cancel{90}^{\textcolor{#e11d48}{1}} \cdot 900}{\cancel{360}_{\textcolor{#e11d48}{4}}} = \frac{900}{4} = \mathbf{225\text{ jóvenes}} \end{aligned}`,
                         robotSpeech: "Simplificamos sacando noventava arriba (1) y abajo (4). Finalmente dividimos 900 entre 4 y obtenemos 225 jóvenes."
                     }
                 ]
             },
             {
-                id: 12,
-                title: "Reto 12",
+                id: 2,
+                title: "Reto 2",
                 subtitle: "Áreas Académicas",
                 cardBg: "from-[#4361ee] to-[#3a0ca3] border-[#4cc9f0]",
                 enunciadoText: "El gráfico muestra las áreas preferidas por 240 postulantes. Calcula la suma de los que prefieren Ing. Química con Letras.",
@@ -222,7 +256,7 @@
                     {
                         propertyText: "Paso 2: Ángulo de Ing. Química + Letras",
                         sectorTexts: ['108°', '63°', '99°', '90°'],
-                        latex: String.raw`\begin{aligned} 261^{\circ} + \alpha &= 360^{\circ} \implies \alpha = \mathbf{99^{\circ}} \\ \text{Quím. + Letras} &= 99^{\circ} + 63^{\circ} \\ &= \textcolor{#be185d}{\mathbf{162^{\circ}}} \end{aligned}`,
+                        latex: String.raw`\begin{aligned} 261^{\circ} + \alpha &= 360^{\circ} \implies \alpha = \mathbf{99^{\circ}} \\ \text{Quím. + Letras} &= 99^{\circ} + 63^{\circ} = \textcolor{#be185d}{\mathbf{162^{\circ}}} \end{aligned}`,
                         robotSpeech: "Hallamos que Ing. Química mide 99°. Al sumarlo con los 63° de Letras obtenemos 162° en conjunto."
                     },
                     {
@@ -234,14 +268,14 @@
                     {
                         propertyText: "Paso 4: Simplificación y Resultado",
                         sectorTexts: ['72 post.', '42 post.', '66 post.', '60 post.'],
-                        latex: String.raw`\begin{aligned} x &= \frac{162 \cdot \cancel{240}^{\textcolor{#e11d48}{2}}}{\cancel{360}_{\textcolor{#e11d48}{3}}} = \frac{\cancel{162}^{\textcolor{#0284c7}{54}} \cdot 2}{\cancel{3}_{\textcolor{#0284c7}{1}}} \\ x &= 54 \cdot 2 = \mathbf{108\text{ postulantes}} \end{aligned}`,
+                        latex: String.raw`\begin{aligned} x &= \frac{162 \cdot \cancel{240}^{\textcolor{#e11d48}{2}}}{\cancel{360}_{\textcolor{#e11d48}{3}}} = \frac{\cancel{162}^{\textcolor{#0284c7}{54}} \cdot 2}{\cancel{3}_{\textcolor{#0284c7}{1}}} = \mathbf{108\text{ postulantes}} \end{aligned}`,
                         robotSpeech: "Simplificamos 240 y 360 sacando 120ava (2 y 3). Luego 162 entre 3 nos da 54, y por 2 resulta 108 postulantes."
                     }
                 ]
             },
             {
-                id: 13,
-                title: "Reto 13",
+                id: 3,
+                title: "Reto 3",
                 subtitle: "Cursos Escolares",
                 cardBg: "from-[#06d6a0] to-[#118ab2] border-[#80ffdb]",
                 enunciadoText: "Se representa la preferencia de 720 estudiantes por 5 cursos. ¿Cuántos más prefieren Matemática que Ciencia y Ambiente?",
@@ -263,7 +297,7 @@
                     {
                         propertyText: "Paso 2: Hallando θ y la diferencia",
                         sectorTexts: ['108°', '118°', '36°', '28°', '70°'],
-                        latex: String.raw`\begin{aligned} 8\theta &= 144^{\circ} \implies \theta = \mathbf{18^{\circ}} \\ \text{Mat.} - \text{C.A.} &= 6\theta - 2\theta = 4\theta \\ &= 4(18^{\circ}) = \textcolor{#be185d}{\mathbf{72^{\circ}}} \end{aligned}`,
+                        latex: String.raw`\begin{aligned} 8\theta &= 144^{\circ} \implies \theta = \mathbf{18^{\circ}} \\ \text{Mat.} - \text{C.A.} &= 6\theta - 2\theta = 4(18^{\circ}) = \textcolor{#be185d}{\mathbf{72^{\circ}}} \end{aligned}`,
                         robotSpeech: "Despejamos θ = 18°. Así Matemática mide 108° y C. y Ambiente 36°. Su diferencia es 4θ = 72°."
                     },
                     {
@@ -275,17 +309,17 @@
                     {
                         propertyText: "Paso 4: Simplificación y Resultado",
                         sectorTexts: ['216 est.', '236 est.', '72 est.', '56 est.', '140 est.'],
-                        latex: String.raw`\begin{aligned} x &= \frac{72 \cdot \cancel{720}^{\textcolor{#e11d48}{2}}}{\cancel{360}_{\textcolor{#e11d48}{1}}} \\ x &= 72 \cdot 2 = \mathbf{144\text{ estudiantes}} \end{aligned}`,
+                        latex: String.raw`\begin{aligned} x &= \frac{72 \cdot \cancel{720}^{\textcolor{#e11d48}{2}}}{\cancel{360}_{\textcolor{#e11d48}{1}}} = 72 \cdot 2 = \mathbf{144\text{ estudiantes}} \end{aligned}`,
                         robotSpeech: "¡Simplificamos 720 entre 360 y nos queda 2! Multiplicamos 72 por 2 y obtenemos 144 estudiantes de diferencia."
                     }
                 ]
             },
             {
-                id: 14,
-                title: "Reto 14",
+                id: 4,
+                title: "Reto 4",
                 subtitle: "Medios de Transporte",
                 cardBg: "from-[#f72585] to-[#b5179e] border-[#ff70a6]",
-                enunciadoText: "Los sectores Tren Eléctrico y Bicicleta están en relación de 3 a 2. Calcula el ángulo central (θ) correspondiente a Bicicleta.",
+                enunciadoText: "Los sectores Tren Eléctrico y Bicicleta están en relación de 3 a 2. Calcula el ángulo central (θ) de Bicicleta.",
                 enunciadoLatex: String.raw`\frac{\text{Tren}}{\text{Bici}} = \frac{3k}{2k}`,
                 baseSectors: [
                     { label: 'Bus', value: 35, color: '#14b8a6' },
@@ -303,7 +337,7 @@
                     {
                         propertyText: "Paso 2: Porcentaje de Bicicleta",
                         sectorTexts: ['35%', '16%', '24%', '25%'],
-                        latex: String.raw`\begin{aligned} 60\% + 5k &= 100\% \\ 5k = 40\% &\implies k = \mathbf{8\%} \\ \text{Bicicleta} &= 2(8\%) = \textcolor{#be185d}{\mathbf{16\%}} \end{aligned}`,
+                        latex: String.raw`\begin{aligned} 60\% + 5k &= 100\% \implies 5k = 40\% \implies k = \mathbf{8\%} \\ \text{Bicicleta} &= 2(8\%) = \textcolor{#be185d}{\mathbf{16\%}} \end{aligned}`,
                         robotSpeech: "Despejamos k = 8%. Como Bicicleta es 2k, multiplicamos 2 por 8% y descubrimos que Bicicleta es el 16%."
                     },
                     {
@@ -315,14 +349,14 @@
                     {
                         propertyText: "Paso 4: Simplificación y Resultado",
                         sectorTexts: ['126°', '57,6°', '86,4°', '90°'],
-                        latex: String.raw`\begin{aligned} \theta &= \frac{16 \cdot 36\cancel{0}}{10\cancel{0}} = \frac{\cancel{16}^{\textcolor{#e11d48}{8}} \cdot 36}{\cancel{10}_{\textcolor{#e11d48}{5}}} \\ \theta &= \frac{288}{5} = \mathbf{57,6^{\circ}} \end{aligned}`,
+                        latex: String.raw`\begin{aligned} \theta &= \frac{\cancel{16}^{\textcolor{#e11d48}{8}} \cdot 36\cancel{0}}{\cancel{10\cancel{0}}_{\textcolor{#e11d48}{5}}} = \frac{288}{5} = \mathbf{57,6^{\circ}} \end{aligned}`,
                         robotSpeech: "Cancelamos un cero, sacamos mitad (8 y 5) y dividimos 288 entre 5. ¡El ángulo central de Bicicleta es 57,6°!"
                     }
                 ]
             },
             {
-                id: 15,
-                title: "Reto 15",
+                id: 5,
+                title: "Reto 5",
                 subtitle: "Campaña Veterinaria",
                 cardBg: "from-[#00b4d8] to-[#0077b6] border-[#90e0ef]",
                 enunciadoText: "El gráfico muestra las mascotas atendidas. Si se atendieron 36 conejos, ¿cuántos perros más que gatos fueron atendidos?",
@@ -337,13 +371,13 @@
                     {
                         propertyText: "Paso 1: Completando el 100%",
                         sectorTexts: ['48%', '28%', '15%', 'x%'],
-                        latex: String.raw`\begin{aligned} \text{Suma} &= 48\% + 28\% + 15\% = 91\% \\ \text{Conejos} &= 100\% - 91\% \\ &= \textcolor{#db2777}{\mathbf{9\%}} \end{aligned}`,
+                        latex: String.raw`\begin{aligned} \text{Suma} &= 48\% + 28\% + 15\% = 91\% \\ \text{Conejos} &= 100\% - 91\% = \textcolor{#db2777}{\mathbf{9\%}} \end{aligned}`,
                         robotSpeech: "Sumamos los porcentajes conocidos (91%). Lo que falta para alcanzar el 100% corresponde a los Conejos: ¡9%!"
                     },
                     {
                         propertyText: "Paso 2: Diferencia (Perros - Gatos)",
                         sectorTexts: ['48%', '28%', '15%', '9% (36)'],
-                        latex: String.raw`\begin{aligned} \text{Conejos (9\%)} &= 36\text{ mascotas} \\ \text{Perros} - \text{Gatos} &= 48\% - 28\% \\ &= \textcolor{#7c3aed}{\mathbf{20\%}} \end{aligned}`,
+                        latex: String.raw`\begin{aligned} \text{Conejos (9\%)} &= 36\text{ mascotas} \\ \text{Perros} - \text{Gatos} &= 48\% - 28\% = \textcolor{#7c3aed}{\mathbf{20\%}} \end{aligned}`,
                         robotSpeech: "Sabemos que el 9% equivale a 36 conejos. Además, la diferencia entre Perros (48%) y Gatos (28%) es del 20%."
                     },
                     {
@@ -355,17 +389,17 @@
                     {
                         propertyText: "Paso 4: Simplificación y Resultado",
                         sectorTexts: ['192 perros', '112 gatos', '60 aves', '36 conejos'],
-                        latex: String.raw`\begin{aligned} x &= \frac{20 \cdot \cancel{36}^{\textcolor{#e11d48}{4}}}{\cancel{9}_{\textcolor{#e11d48}{1}}} \\ x &= 20 \cdot 4 = \mathbf{80\text{ perros más}} \end{aligned}`,
+                        latex: String.raw`\begin{aligned} x &= \frac{20 \cdot \cancel{36}^{\textcolor{#e11d48}{4}}}{\cancel{9}_{\textcolor{#e11d48}{1}}} = 20 \cdot 4 = \mathbf{80\text{ perros más}} \end{aligned}`,
                         robotSpeech: "Simplificamos sacando novena a 36 y 9 (queda 4). Multiplicamos 20 por 4 y obtenemos 80 perros más que gatos."
                     }
                 ]
             },
             {
-                id: 16,
-                title: "Reto 16",
+                id: 6,
+                title: "Reto 6",
                 subtitle: "Presupuesto Familiar",
                 cardBg: "from-[#9b5de5] to-[#7209b7] border-[#e0aaff]",
-                enunciadoText: "La familia Huamán distribuye su ingreso mensual de S/4800 según el gráfico. ¿Cuánto más destina a Alimentación que al Ahorro?",
+                enunciadoText: "La familia Huamán distribuye su ingreso mensual de S/ 4800 según el gráfico. ¿Cuánto más destina a Alimentación que al Ahorro?",
                 enunciadoLatex: String.raw`\text{Total} = \text{S/ } 4800`,
                 baseSectors: [
                     { label: 'Alimentación', value: 35, color: '#f43f5e' },
@@ -377,13 +411,13 @@
                     {
                         propertyText: "Paso 1: Pasando 81° a porcentaje",
                         sectorTexts: ['35%', 'x%', '81°', '25%'],
-                        latex: String.raw`\begin{aligned} \text{Educación} &= \frac{\cancel{81^{\circ}}^{\textcolor{#e11d48}{9}}}{\cancel{360^{\circ}}_{\textcolor{#e11d48}{40}}} \cdot 100\% \\ &= \frac{9 \cdot \cancel{100}^{\,5}}{\cancel{40}_{\,2}}\% = \mathbf{22,5\%} \end{aligned}`,
+                        latex: String.raw`\begin{aligned} \text{Educación} &= \frac{\cancel{81^{\circ}}^{\textcolor{#e11d48}{9}}}{\cancel{360^{\circ}}_{\textcolor{#e11d48}{40}}} \cdot 100\% = \frac{9 \cdot 5}{2}\% = \mathbf{22,5\%} \end{aligned}`,
                         robotSpeech: "Vivienda tiene ángulo recto (25%). Pasamos los 81° de Educación a porcentaje simplificando: ¡nos da 22,5%!"
                     },
                     {
                         propertyText: "Paso 2: Hallando Ahorro y Diferencia",
                         sectorTexts: ['35%', '17,5%', '22,5%', '25%'],
-                        latex: String.raw`\begin{aligned} \text{Ahorro} &= 100\% - (35\% + 25\% + 22,5\%) \\ &= \mathbf{17,5\%} \\ \text{Alim.} - \text{Ahorro} &= 35\% - 17,5\% = \textcolor{#be185d}{\mathbf{17,5\%}} \end{aligned}`,
+                        latex: String.raw`\begin{aligned} \text{Ahorro} &= 100\% - (35\% + 25\% + 22,5\%) = \mathbf{17,5\%} \\ \text{Alim.} - \text{Ahorro} &= 35\% - 17,5\% = \textcolor{#be185d}{\mathbf{17,5\%}} \end{aligned}`,
                         robotSpeech: "Restamos del 100% y hallamos que Ahorro es 17,5%. Y la diferencia entre Alimentación (35%) y Ahorro (17,5%) también es 17,5%."
                     },
                     {
@@ -395,14 +429,14 @@
                     {
                         propertyText: "Paso 4: Simplificación y Resultado",
                         sectorTexts: ['S/ 1680', 'S/ 840', 'S/ 1080', 'S/ 1200'],
-                        latex: String.raw`\begin{aligned} x &= \frac{17,5 \cdot 48\cancel{00}}{1\cancel{00}} \\ x &= 17,5 \cdot 48 = \mathbf{\text{S/ } 840} \end{aligned}`,
+                        latex: String.raw`\begin{aligned} x &= \frac{17,5 \cdot 48\cancel{00}}{1\cancel{00}} = 17,5 \cdot 48 = \mathbf{\text{S/ } 840} \end{aligned}`,
                         robotSpeech: "Simplificamos los dos ceros de 4800 con los del 100. Multiplicamos 17,5 por 48 y obtenemos S/ 840."
                     }
                 ]
             },
             {
-                id: 17,
-                title: "Reto 17",
+                id: 7,
+                title: "Reto 7",
                 subtitle: "Géneros Literarios",
                 cardBg: "from-[#52b788] to-[#2d6a4f] border-[#95d5b2]",
                 enunciadoText: "Se encuestó a 600 jóvenes sobre su género literario favorito. Calcula cuántos jóvenes prefieren Aventura o Terror.",
@@ -423,7 +457,7 @@
                     {
                         propertyText: "Paso 2: Hallando x y (Aventura + Terror)",
                         sectorTexts: ['20%', '30%', '32%', '18%'],
-                        latex: String.raw`\begin{aligned} 9x + 28 &= 100 \implies 9x = 72 \implies \mathbf{x = 8} \\ \text{Terror} &= 3(8)+8 = \mathbf{32\%} \\ \text{Av. + Ter.} &= 20\% + 32\% = \textcolor{#be185d}{\mathbf{52\%}} \end{aligned}`,
+                        latex: String.raw`\begin{aligned} 9x + 28 &= 100 \implies 9x = 72 \implies \mathbf{x = 8} \\ \text{Av. + Ter.} &= 20\% + 32\% = \textcolor{#be185d}{\mathbf{52\%}} \end{aligned}`,
                         robotSpeech: "Despejamos x = 8. Reemplazando en Terror obtenemos 32%, y sumado con el 20% de Aventura nos da 52%."
                     },
                     {
@@ -435,14 +469,14 @@
                     {
                         propertyText: "Paso 4: Simplificación y Resultado",
                         sectorTexts: ['120 jóv.', '180 jóv.', '192 jóv.', '108 jóv.'],
-                        latex: String.raw`\begin{aligned} y &= \frac{52 \cdot \cancel{600}^{\textcolor{#e11d48}{6}}}{\cancel{100}_{\textcolor{#e11d48}{1}}} \\ y &= 52 \cdot 6 = \mathbf{312\text{ jóvenes}} \end{aligned}`,
+                        latex: String.raw`\begin{aligned} y &= \frac{52 \cdot \cancel{600}^{\textcolor{#e11d48}{6}}}{\cancel{100}_{\textcolor{#e11d48}{1}}} = 52 \cdot 6 = \mathbf{312\text{ jóvenes}} \end{aligned}`,
                         robotSpeech: "Cancelamos los dos ceros de 600 y 100. Multiplicamos 52 por 6 y obtenemos 312 jóvenes."
                     }
                 ]
             },
             {
-                id: 18,
-                title: "Reto 18",
+                id: 8,
+                title: "Reto 8",
                 subtitle: "Tienda de Zapatillas",
                 cardBg: "from-[#ef476f] to-[#d90429] border-[#ff8fa3]",
                 enunciadoText: "Si se vendieron 45 pares más de la marca A que de la marca C, ¿cuántos pares se vendieron en total entre las marcas B y D?",
@@ -457,13 +491,13 @@
                     {
                         propertyText: "Paso 1: Ángulo de la Marca D",
                         sectorTexts: ['135°', '35°', '85°', '105°'],
-                        latex: String.raw`\begin{aligned} \text{Suma} &= 135^{\circ} + 105^{\circ} + 85^{\circ} = 325^{\circ} \\ \text{Marca D} &= 360^{\circ} - 325^{\circ} \\ &= \textcolor{#7c3aed}{\mathbf{35^{\circ}}} \end{aligned}`,
+                        latex: String.raw`\begin{aligned} \text{Suma} &= 135^{\circ} + 105^{\circ} + 85^{\circ} = 325^{\circ} \\ \text{Marca D} &= 360^{\circ} - 325^{\circ} = \textcolor{#7c3aed}{\mathbf{35^{\circ}}} \end{aligned}`,
                         robotSpeech: "Completamos los 360° del círculo restando los tres ángulos conocidos y descubrimos que la Marca D mide 35°."
                     },
                     {
                         propertyText: "Paso 2: Diferencia (A - C) y Suma (B + D)",
                         sectorTexts: ['135°', '35°', '85°', '105°'],
-                        latex: String.raw`\begin{aligned} \text{A} - \text{C} &= 135^{\circ} - 85^{\circ} = \mathbf{50^{\circ}} \equiv 45\text{ pares} \\ \text{B} + \text{D} &= 105^{\circ} + 35^{\circ} \\ &= \textcolor{#be185d}{\mathbf{140^{\circ}}} \end{aligned}`,
+                        latex: String.raw`\begin{aligned} \text{A} - \text{C} &= 135^{\circ} - 85^{\circ} = \mathbf{50^{\circ}} \equiv 45\text{ pares} \\ \text{B} + \text{D} &= 105^{\circ} + 35^{\circ} = \textcolor{#be185d}{\mathbf{140^{\circ}}} \end{aligned}`,
                         robotSpeech: "La diferencia entre A y C es 50° (que equivale a 45 pares). Y la suma de las marcas B y D es 105° + 35° = 140°."
                     },
                     {
@@ -474,15 +508,15 @@
                     },
                     {
                         propertyText: "Paso 4: Simplificación y Resultado",
-                        sectorTexts: ['121,5 p.', '31,5 pares', '76,5 p.', '94,5 pares'],
-                        latex: String.raw`\begin{aligned} x &= \frac{14\cancel{0} \cdot \cancel{45}^{\textcolor{#e11d48}{9}}}{\cancel{5\cancel{0}}_{\textcolor{#e11d48}{1}}} \\ x &= 14 \cdot 9 = \mathbf{126\text{ pares}} \end{aligned}`,
+                        sectorTexts: ['121,5 p.', '31,5 p.', '76,5 p.', '94,5 p.'],
+                        latex: String.raw`\begin{aligned} x &= \frac{14\cancel{0} \cdot \cancel{45}^{\textcolor{#e11d48}{9}}}{\cancel{5\cancel{0}}_{\textcolor{#e11d48}{1}}} = 14 \cdot 9 = \mathbf{126\text{ pares}} \end{aligned}`,
                         robotSpeech: "Eliminamos un cero de 140 y 50, luego sacamos quinta a 45 (9) y a 5 (1). Multiplicamos 14 por 9 = 126 pares."
                     }
                 ]
             },
             {
-                id: 19,
-                title: "Reto 19",
+                id: 9,
+                title: "Reto 9",
                 subtitle: "Olimpiada Regional",
                 cardBg: "from-[#f77f00] to-[#d62828] border-[#fcbf49]",
                 enunciadoText: "Participaron 800 estudiantes. Si 3/8 de Primaria y 5/9 de Secundaria son mujeres, ¿cuántos varones hay entre Primaria y Secundaria?",
@@ -496,32 +530,32 @@
                     {
                         propertyText: "Paso 1: Regla de Tres para Primaria (144°)",
                         sectorTexts: ['144° (320)', '45%', '54°'],
-                        latex: String.raw`\begin{matrix} \mathbf{360^{\circ}} & \longleftrightarrow & \mathbf{800\text{ est.}} \\ \text{ } & \textcolor{#e11d48}{\huge\times} & \text{ } \\ \mathbf{144^{\circ}} & \longleftrightarrow & \mathbf{P} \end{matrix} \\[6pt] P = \frac{\cancel{144}^{\textcolor{#e11d48}{2}} \cdot 800}{\cancel{360}_{\textcolor{#e11d48}{5}}} = 2 \cdot 160 = \mathbf{320}`,
-                        robotSpeech: "Hallamos el total de Primaria con Regla de Tres: simplificamos 144 y 360 sacando 72ava (2 y 5) y obtenemos 320."
+                        latex: String.raw`\begin{aligned} P &= \frac{\cancel{144^{\circ}}^{\textcolor{#e11d48}{2}} \cdot 800}{\cancel{360^{\circ}}_{\textcolor{#e11d48}{5}}} = 2 \cdot 160 = \mathbf{320\text{ estudiantes}} \end{aligned}`,
+                        robotSpeech: "Hallamos el total de Primaria: simplificamos 144 y 360 sacando 72ava (2 y 5) y multiplicamos por 800 = 320."
                     },
                     {
                         propertyText: "Paso 2: Regla de Tres para Secundaria (45%)",
                         sectorTexts: ['320 est.', '360 est.', '120 est.'],
-                        latex: String.raw`\begin{matrix} \mathbf{100\%} & \longleftrightarrow & \mathbf{800\text{ est.}} \\ \text{ } & \textcolor{#e11d48}{\huge\times} & \text{ } \\ \mathbf{45\%} & \longleftrightarrow & \mathbf{S} \end{matrix} \\[6pt] S = \frac{45 \cdot \cancel{800}^{\textcolor{#e11d48}{8}}}{\cancel{100}_{\textcolor{#e11d48}{1}}} = 45 \cdot 8 = \mathbf{360}`,
+                        latex: String.raw`\begin{aligned} S &= \frac{45 \cdot \cancel{800}^{\textcolor{#e11d48}{8}}}{\cancel{100}_{\textcolor{#e11d48}{1}}} = 45 \cdot 8 = \mathbf{360\text{ estudiantes}} \end{aligned}`,
                         robotSpeech: "Ahora hallamos Secundaria: cancelamos dos ceros de 800 y 100, y multiplicamos 45 por 8 = 360 estudiantes."
                     },
                     {
                         propertyText: "Paso 3: Varones en cada nivel",
                         sectorTexts: ['Var: 200', 'Var: 160', '120 est.'],
-                        latex: String.raw`\begin{aligned} \text{Varones}_{\text{Pri}} &= \frac{5}{\cancel{8}_{\,1}} \cdot \cancel{320}^{\textcolor{#e11d48}{40}} = \mathbf{200} \\ \text{Varones}_{\text{Sec}} &= \frac{4}{\cancel{9}_{\,1}} \cdot \cancel{360}^{\textcolor{#0284c7}{40}} = \mathbf{160} \end{aligned}`,
+                        latex: String.raw`\begin{aligned} \text{Varones}_{\text{Pri}} &= \frac{5}{\cancel{8}_{\,1}} \cdot \cancel{320}^{\textcolor{#e11d48}{40}} = \mathbf{200} \quad;\quad \text{Varones}_{\text{Sec}} = \frac{4}{\cancel{9}_{\,1}} \cdot \cancel{360}^{\textcolor{#0284c7}{40}} = \mathbf{160} \end{aligned}`,
                         robotSpeech: "Si 3/8 de Primaria son mujeres, los 5/8 son varones (200). Y si 5/9 de Secundaria son mujeres, los 4/9 son varones (160)."
                     },
                     {
                         propertyText: "Paso 4: Suma Total de Varones",
                         sectorTexts: ['200 varones', '160 varones', '120 est.'],
-                        latex: String.raw`\begin{aligned} \text{Total Varones} &= 200 + 160 \\ &= \mathbf{360\text{ varones}} \end{aligned}`,
+                        latex: String.raw`\begin{aligned} \text{Total Varones} &= 200 + 160 = \mathbf{360\text{ varones}} \end{aligned}`,
                         robotSpeech: "Sumamos los 200 varones de Primaria con los 160 varones de Secundaria y obtenemos 360 varones en total."
                     }
                 ]
             },
             {
-                id: 20,
-                title: "Reto 20",
+                id: 10,
+                title: "Reto 10",
                 subtitle: "Club de Natación",
                 cardBg: "from-[#7209b7] to-[#560bad] border-[#b5179e]",
                 enunciadoText: "En un club de 1200 socios, de los que practican Natación: el 35% nada libre, 1/4 pecho y el resto mariposa. ¿Cuántos nadan mariposa?",
@@ -536,26 +570,26 @@
                     {
                         propertyText: "Paso 1: Porcentaje de Natación",
                         sectorTexts: ['126° = 35%', '10%', '25%', '30%'],
-                        latex: String.raw`\begin{aligned} \text{Fútbol} &= \frac{\cancel{126^{\circ}}^{\,7}}{\cancel{360^{\circ}}_{\,20}} \cdot 100\% = \mathbf{35\%} \\ \text{Tenis} &= 90^{\circ} = \mathbf{25\%} \\ \text{Natación} &= 100\% - 70\% = \textcolor{#0284c7}{\mathbf{30\%}} \end{aligned}`,
+                        latex: String.raw`\begin{aligned} \text{Fútbol} &= \frac{\cancel{126^{\circ}}^{\,7}}{\cancel{360^{\circ}}_{\,20}} \cdot 100\% = \mathbf{35\%} \quad;\quad \text{Tenis} = \mathbf{25\%} \\ \text{Natación} &= 100\% - 70\% = \textcolor{#0284c7}{\mathbf{30\%}} \end{aligned}`,
                         robotSpeech: "Pasamos 126° a porcentaje (35%) y Tenis tiene ángulo recto (25%). Restando del 100% hallamos que Natación es 30%."
                     },
                     {
-                        propertyText: "Paso 2: Regla de Tres para Natación",
-                        sectorTexts: ['420 soc.', '120 soc.', '300 soc.', '360 socios'],
-                        latex: String.raw`\begin{matrix} \textcolor{#1e40af}{\mathbf{100\%}} & \longleftrightarrow & \textcolor{#047857}{\mathbf{1200\text{ socios}}} \\ \text{ } & \textcolor{#e11d48}{\huge\times} & \text{ } \\ \textcolor{#be185d}{\mathbf{30\%}} & \longleftrightarrow & \textcolor{#7c3aed}{\mathbf{N}} \end{matrix} \\[6pt] N = \frac{30 \cdot \cancel{1200}^{\textcolor{#e11d48}{12}}}{\cancel{100}_{\textcolor{#e11d48}{1}}} = \mathbf{360\text{ nadadores}}`,
-                        robotSpeech: "Con Regla de Tres hallamos cuántos socios practican Natación: simplificamos dos ceros y multiplicamos 30 por 12 = 360."
+                        propertyText: "Paso 2: Total de socios en Natación",
+                        sectorTexts: ['420 soc.', '120 soc.', '300 soc.', '360 nad.'],
+                        latex: String.raw`\begin{aligned} N &= \frac{30 \cdot \cancel{1200}^{\textcolor{#e11d48}{12}}}{\cancel{100}_{\textcolor{#e11d48}{1}}} = \mathbf{360\text{ nadadores}} \end{aligned}`,
+                        robotSpeech: "Hallamos cuántos socios practican Natación: simplificamos dos ceros y multiplicamos 30 por 12 = 360."
                     },
                     {
                         propertyText: "Paso 3: Porcentaje de Estilo Mariposa",
                         sectorTexts: ['35%', '10%', '25%', 'Mariposa: 40%'],
-                        latex: String.raw`\begin{aligned} \text{Libre} &= 35\% \quad ; \quad \text{Pecho} = \frac{1}{4} = 25\% \\ \text{Mariposa} &= 100\% - (35\% + 25\%) \\ &= \textcolor{#7c3aed}{\mathbf{40\%\text{ de }360}} \end{aligned}`,
+                        latex: String.raw`\begin{aligned} \text{Libre} &= 35\% \quad ; \quad \text{Pecho} = \frac{1}{4} = 25\% \\ \text{Mariposa} &= 100\% - (35\% + 25\%) = \textcolor{#7c3aed}{\mathbf{40\%\text{ de }360}} \end{aligned}`,
                         robotSpeech: "De los 360 nadadores: Libre es 35% y Pecho es 1/4 (25%). El resto nada estilo Mariposa: 100% - 60% = 40%."
                     },
                     {
-                        propertyText: "Paso 4: Regla de Tres Final y Simplificación",
+                        propertyText: "Paso 4: Cálculo Final y Simplificación",
                         sectorTexts: ['420 soc.', '120 soc.', '300 soc.', 'Mariposa: 144'],
-                        latex: String.raw`\begin{matrix} \textcolor{#1e40af}{\mathbf{100\%}} & \longleftrightarrow & \textcolor{#047857}{\mathbf{360\text{ nad.}}} \\ \text{ } & \textcolor{#e11d48}{\huge\times} & \text{ } \\ \textcolor{#be185d}{\mathbf{40\%}} & \longleftrightarrow & \textcolor{#7c3aed}{\mathbf{M}} \end{matrix} \\[6pt] M = \frac{4\cancel{0} \cdot 36\cancel{0}}{1\cancel{00}} = 4 \cdot 36 = \mathbf{144\text{ socios}}`,
-                        robotSpeech: "Calculamos el 40% de 360 con Regla de Tres: cancelamos los dos ceros de arriba con el 100 de abajo y multiplicamos 4 por 36 = 144 socios."
+                        latex: String.raw`\begin{aligned} M &= \frac{4\cancel{0} \cdot 36\cancel{0}}{1\cancel{00}} = 4 \cdot 36 = \mathbf{144\text{ socios}} \end{aligned}`,
+                        robotSpeech: "Calculamos el 40% de 360: cancelamos los dos ceros de arriba con el 100 de abajo y multiplicamos 4 por 36 = 144 socios."
                     }
                 ]
             }
@@ -576,22 +610,26 @@
             }, [latex]);
 
             return (
-                <div className={`relative w-full flex justify-center overflow-hidden ${className}`}>
-                    <div ref={containerRef} className="w-full text-center" />
+                <div className={`relative w-full flex justify-center items-center overflow-x-auto scrollbar-hide ${className}`}>
+                    <div ref={containerRef} className="w-full text-center py-1" />
                 </div>
             );
         });
 
-        const PieChart = memo(({ baseSectors, sectorTexts }) => {
+        // Gráfico Circular Grande y Claro
+        const PieChart = memo(({ baseSectors, sectorTexts, selectedSector, onSelectSector }) => {
             const size = 300;
-            const radius = 132;
+            const radius = 136; // Ocupa casi todo el viewBox sin cortarse al explotar una tajada
             const center = size / 2;
             const total = baseSectors.reduce((sum, item) => sum + item.value, 0);
             let currentAngle = -Math.PI / 2;
 
             return (
-                <div className="relative w-full max-w-[220px] sm:max-w-[270px] lg:max-w-[310px] aspect-square flex items-center justify-center shrink-0">
-                    <svg viewBox={`0 0 ${size} ${size}`} className="w-full h-full drop-shadow-[0_12px_22px_rgba(0,0,0,0.18)]">
+                <div className="relative w-full h-full flex items-center justify-center">
+                    <svg 
+                        viewBox={`0 0 ${size} ${size}`} 
+                        className="w-full h-full max-w-[230px] sm:max-w-[310px] md:max-w-[370px] max-h-full aspect-square drop-shadow-[0_10px_20px_rgba(0,0,0,0.18)] overflow-visible"
+                    >
                         {baseSectors.map((slice, index) => {
                             const angle = (slice.value / total) * Math.PI * 2;
                             const isRightAngle = slice.isRightAngle && Math.abs(angle - Math.PI / 2) < 0.08;
@@ -604,13 +642,18 @@
                             const d = `M ${center} ${center} L ${x1} ${y1} A ${radius} ${radius} 0 ${largeArc} 1 ${x2} ${y2} Z`;
 
                             const midAngle = currentAngle + angle / 2;
-                            const labelRadius = angle < 0.6 ? radius * 0.74 : radius * 0.61;
+                            const labelRadius = angle < 0.65 ? radius * 0.73 : radius * 0.60;
                             const tx = center + labelRadius * Math.cos(midAngle);
                             const ty = center + labelRadius * Math.sin(midAngle);
 
+                            const isSelected = selectedSector === index;
+                            const offsetDist = isSelected ? 12 : 0;
+                            const ox = offsetDist * Math.cos(midAngle);
+                            const oy = offsetDist * Math.sin(midAngle);
+
                             let rightAnglePath = null;
                             if (isRightAngle) {
-                                const sq = 18;
+                                const sq = 20;
                                 const rx1 = center + sq * Math.cos(currentAngle);
                                 const ry1 = center + sq * Math.sin(currentAngle);
                                 const rx2 = center + sq * Math.cos(currentAngle) + sq * Math.cos(currentAngle + angle);
@@ -624,16 +667,26 @@
                             const dynamicText = sectorTexts && sectorTexts[index] !== undefined ? sectorTexts[index] : '';
 
                             return (
-                                <g key={index}>
-                                    <path d={d} fill={slice.color} className="sector-path" />
+                                <g 
+                                    key={index} 
+                                    className="sector-group"
+                                    style={{ transform: `translate(${ox}px, ${oy}px)` }}
+                                    onClick={() => onSelectSector(index)}
+                                >
+                                    <path 
+                                        d={d} 
+                                        fill={slice.color} 
+                                        className="sector-path" 
+                                        style={{ strokeWidth: isSelected ? 4.5 : 3, stroke: isSelected ? '#0f172a' : '#ffffff' }}
+                                    />
                                     {rightAnglePath && (
-                                        <path d={rightAnglePath} fill="rgba(255,255,255,0.5)" stroke="#0f172a" strokeWidth="2.5" strokeLinejoin="miter" />
+                                        <path d={rightAnglePath} fill="rgba(255,255,255,0.7)" stroke="#0f172a" strokeWidth="2.5" strokeLinejoin="miter" />
                                     )}
-                                    <text x={tx} y={dynamicText ? ty - 8 : ty} className="chart-label text-[12px] sm:text-[13.5px]">
+                                    <text x={tx} y={dynamicText ? ty - 9 : ty} className="chart-label-title">
                                         {slice.label}
                                     </text>
                                     {dynamicText && (
-                                        <text x={tx} y={ty + 10} className="chart-label text-[13px] sm:text-[14.5px]">
+                                        <text x={tx} y={ty + 11} className="chart-label-value">
                                             {dynamicText}
                                         </text>
                                     )}
@@ -646,16 +699,16 @@
         });
 
         const FloatingBackground = memo(() => {
-            const symbols = ['+', '-', '×', '÷', '=', '✨', '360°', 'θ', '%', '🚀', '🧠'];
-            const elements = Array.from({ length: 30 }).map((_, i) => ({
-                id: i, symbol: symbols[Math.floor(Math.random() * symbols.length)], left: `${Math.random() * 100}%`,
-                animationDuration: `${10 + Math.random() * 15}s`, animationDelay: `-${Math.random() * 20}s`,
-                fontSize: `${1 + Math.random() * 3}rem`, opacity: 0.1 + Math.random() * 0.15
+            const symbols = ['+', '-', '×', '÷', '=', '✨', '360°', 'θ', '%', '📊'];
+            const elements = Array.from({ length: 18 }).map((_, i) => ({
+                id: i, symbol: symbols[i % symbols.length], left: `${(i * 6) % 96}%`,
+                animationDuration: `${12 + (i % 8) * 2}s`, animationDelay: `-${(i * 1.3)}s`,
+                fontSize: `${1.2 + (i % 3) * 0.7}rem`, opacity: 0.12
             }));
             return (
                 <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
                     {elements.map((el) => (
-                        <div key={el.id} className="absolute text-white font-black animate-floatUp select-none drop-shadow-lg" style={{ left: el.left, bottom: '-15%', fontSize: el.fontSize, opacity: el.opacity, animationDuration: el.animationDuration, animationDelay: el.animationDelay }}>
+                        <div key={el.id} className="absolute text-white font-black animate-floatUp select-none" style={{ left: el.left, bottom: '-15%', fontSize: el.fontSize, opacity: el.opacity, animationDuration: el.animationDuration, animationDelay: el.animationDelay }}>
                             {el.symbol}
                         </div>
                     ))}
@@ -665,52 +718,42 @@
 
         const Confetti = memo(() => {
             const colors = ['#fde047', '#60a5fa', '#f472b6', '#34d399', '#a78bfa', '#ff5722'];
-            const pieces = Array.from({ length: 120 }).map((_, i) => ({
-                id: i, left: `${50 + (Math.random() * 20 - 10)}%`, color: colors[Math.floor(Math.random() * colors.length)],
-                tx: `${(Math.random() - 0.5) * 800}px`, ty: `${(Math.random() - 1) * 800}px`, rot: `${Math.random() * 720}deg`, delay: `${Math.random() * 0.2}s`
+            const pieces = Array.from({ length: 80 }).map((_, i) => ({
+                id: i, left: `${50 + (Math.random() * 20 - 10)}%`, color: colors[i % colors.length],
+                tx: `${(Math.random() - 0.5) * 650}px`, ty: `${(Math.random() - 1) * 650}px`, rot: `${Math.random() * 720}deg`, delay: `${Math.random() * 0.15}s`
             }));
             return (
                 <div className="absolute inset-0 pointer-events-none z-50 flex items-center justify-center overflow-hidden">
                     {pieces.map((p) => (
-                        <div key={p.id} className="absolute w-4 h-4 sm:w-5 sm:h-5 rounded-full animate-confettiExplosion shadow-sm" style={{ backgroundColor: p.color, '--tx': p.tx, '--ty': p.ty, '--rot': p.rot, animationDelay: p.delay, left: p.left, top: '50%' }} />
+                        <div key={p.id} className="absolute w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full animate-confettiExplosion" style={{ backgroundColor: p.color, '--tx': p.tx, '--ty': p.ty, '--rot': p.rot, animationDelay: p.delay, left: p.left, top: '50%' }} />
                     ))}
                 </div>
             );
         });
 
-        const RobotAssistant = ({ step, maxSteps }) => {
+        const RobotAssistant = ({ step, maxSteps, onSpeak }) => {
             const isFinalStep = step >= maxSteps;
-            const isThinking = step === maxSteps - 1;
-
-            const getContainerAnim = () => { if (isFinalStep) return 'animate-robotJump'; if (isThinking) return 'animate-robotThinkTilt'; return 'animate-robotFloat'; };
-            const getArmLAnim = () => { if (isFinalStep) return 'rotate-[150deg] animate-pulse'; if (step > 0) return 'animate-robotTalkArmL'; return 'rotate-45'; };
-            const getArmRAnim = () => { if (isFinalStep) return '-rotate-[150deg] animate-pulse'; if (step > 0) return 'animate-robotTalkArmR'; return '-rotate-45'; };
-            
-            const getEyes = () => {
-                if (isFinalStep) return <div className="w-full flex justify-between px-1.5"><div className="w-3.5 h-2 bg-emerald-400 rounded-t-full mt-1"></div><div className="w-3.5 h-2 bg-emerald-400 rounded-t-full mt-1"></div></div>;
-                if (step === 0) return <div className="w-full flex justify-between px-2"><div className="w-2.5 h-2.5 bg-cyan-400 rounded-full animate-pulse"></div><div className="w-2.5 h-2.5 bg-cyan-400 rounded-full animate-pulse"></div></div>;
-                return <div className="w-full flex justify-between px-1.5"><div className="w-3 h-3 bg-yellow-400 rounded-full animate-bounce"></div><div className="w-3 h-3 bg-yellow-400 rounded-full animate-bounce"></div></div>;
-            };
-            const getMouth = () => {
-                if (isFinalStep) return <div className="w-6 h-3.5 bg-rose-400 rounded-b-full mt-1.5"></div>;
-                if (step === 0) return <div className="w-4 h-1.5 bg-cyan-300 rounded-full mt-2"></div>;
-                return <div className="w-3.5 h-3.5 bg-rose-400 rounded-full mt-1 animate-ping"></div>;
-            };
-
             return (
-                <div className={`relative flex flex-col items-center drop-shadow-lg select-none ${getContainerAnim()}`}>
+                <button 
+                    onClick={onSpeak}
+                    title="Toca para escuchar al robot"
+                    className={`relative flex flex-col items-center select-none cursor-pointer group active:scale-90 transition-transform shrink-0 ${isFinalStep ? 'animate-robotJump' : 'animate-robotFloat'}`}
+                >
                     <div className="relative z-0 flex flex-col items-center translate-y-1">
-                        <div className={`w-3.5 h-3.5 rounded-full shadow-[0_0_10px_currentColor] z-10 transition-colors duration-300 ${isFinalStep ? 'text-emerald-400 bg-emerald-400' : 'text-yellow-400 bg-yellow-400 animate-pulse'}`}></div>
-                        <div className="w-1.5 h-4 bg-slate-300"></div>
+                        <div className={`w-3 h-3 rounded-full shadow-[0_0_8px_currentColor] z-10 ${isFinalStep ? 'text-emerald-400 bg-emerald-400' : 'text-yellow-400 bg-yellow-400 animate-pulse'}`}></div>
+                        <div className="w-1.5 h-3 bg-slate-300"></div>
                     </div>
-                    <div className="relative z-10 w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-white to-slate-200 rounded-[1.2rem] border-[3px] border-indigo-400 shadow-xl flex flex-col items-center justify-center p-1.5">
-                        <div className="w-full h-full bg-slate-900 rounded-lg flex flex-col items-center justify-center p-1.5 shadow-inner border-2 border-indigo-500">
-                            {getEyes()} {getMouth()}
+                    <div className="relative z-10 w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-white to-slate-200 rounded-2xl border-[3px] border-indigo-400 shadow-md flex flex-col items-center justify-center p-1 group-hover:border-pink-500 transition-colors">
+                        <div className="w-full h-full bg-slate-900 rounded-xl flex flex-col items-center justify-center p-1 border border-indigo-500">
+                            {isFinalStep ? (
+                                <div className="w-full flex justify-between px-1.5"><div className="w-3 h-1.5 bg-emerald-400 rounded-t-full"></div><div className="w-3 h-1.5 bg-emerald-400 rounded-t-full"></div></div>
+                            ) : (
+                                <div className="w-full flex justify-between px-1.5"><div className="w-2.5 h-2.5 bg-cyan-400 rounded-full animate-pulse"></div><div className="w-2.5 h-2.5 bg-cyan-400 rounded-full animate-pulse"></div></div>
+                            )}
+                            <div className={`w-4 sm:w-5 h-2 bg-rose-400 rounded-full mt-1.5 ${step > 0 && !isFinalStep ? 'animate-ping' : ''}`}></div>
                         </div>
                     </div>
-                    <div className={`absolute top-1/2 -left-2 w-3 h-5 bg-slate-200 border-[2.5px] border-indigo-400 rounded-full z-0 origin-top ${getArmLAnim()}`}></div>
-                    <div className={`absolute top-1/2 -right-2 w-3 h-5 bg-slate-200 border-[2.5px] border-indigo-400 rounded-full z-0 origin-top ${getArmRAnim()}`}></div>
-                </div>
+                </button>
             );
         };
 
@@ -719,23 +762,27 @@
             const [exIdx, setExIdx] = useState(0);
             const [step, setStep] = useState(0);
             const [isMuted, setIsMuted] = useState(false);
+            const [selectedSector, setSelectedSector] = useState(null);
 
             const currentExercise = STATISTICAL_EXERCISES[exIdx];
             const maxSteps = currentExercise.steps.length - 1;
             const currentStepData = currentExercise.steps[step];
-
-            const handleInteraction = () => AudioController.init();
+            const totalValue = currentExercise.baseSectors.reduce((s, item) => s + item.value, 0);
 
             const startExercise = (index) => {
-                handleInteraction();
                 AudioController.play('swoosh');
                 setExIdx(index);
                 setStep(0);
+                setSelectedSector(null);
                 setView('lab');
             };
 
+            const handleSelectSector = (index) => {
+                AudioController.play('slice');
+                setSelectedSector(prev => prev === index ? null : index);
+            };
+
             const nextStep = () => {
-                handleInteraction();
                 if (step < maxSteps) {
                     const next = step + 1;
                     setStep(next);
@@ -746,6 +793,7 @@
                         AudioController.play('swoosh');
                         setExIdx(exIdx + 1);
                         setStep(0);
+                        setSelectedSector(null);
                     } else {
                         AudioController.play('swoosh');
                         setView('home');
@@ -754,61 +802,60 @@
             };
 
             const prevStep = () => {
-                handleInteraction();
                 if (step > 0) {
                     setStep(step - 1);
                     AudioController.play('pop-reverse');
                 }
             };
 
-            const toggleMute = () => { handleInteraction(); setIsMuted(AudioController.toggleMute()); };
+            const toggleMute = () => {
+                setIsMuted(AudioController.toggleMute());
+            };
 
+            // PORTADA (Retos 1 al 10)
             if (view === 'home') {
                 return (
-                    <div className="w-screen min-h-[100dvh] bg-gradient-to-br from-[#4f46e5] via-[#7c3aed] to-[#db2777] flex flex-col items-center justify-start p-4 sm:p-6 relative font-fun overflow-y-auto overflow-x-hidden scrollbar-hide">
+                    <div className="w-screen h-[100dvh] bg-gradient-to-br from-[#312e81] via-[#6d28d9] to-[#be185d] flex flex-col items-center justify-start p-3 sm:p-6 relative font-fun overflow-y-auto overflow-x-hidden scrollbar-hide">
                         <FloatingBackground />
                         
-                        <div className="w-full max-w-6xl z-20 flex items-center justify-between mb-6 sm:mb-10 mt-2">
-                            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl border-2 border-yellow-300 bg-white/15 backdrop-blur-md text-yellow-300 font-black tracking-wider uppercase shadow-md text-sm sm:text-base">
+                        <div className="w-full max-w-6xl z-20 flex items-center justify-between mb-4 sm:mb-8 mt-1 shrink-0">
+                            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl border-2 border-yellow-300 bg-white/15 backdrop-blur-md text-yellow-300 font-black tracking-wider uppercase shadow-md text-sm sm:text-lg">
                                 <Rocket className="w-5 h-5 text-yellow-300" /> TuProfe20 Lab
                             </div>
-                            <button onClick={toggleMute} className="p-2 sm:p-3 rounded-2xl bg-white/20 border-2 border-white/30 backdrop-blur-md text-white hover:bg-white/30 transition-all active:scale-95">
-                                {isMuted ? <VolumeX className="w-5 h-5 sm:w-6 sm:h-6" /> : <Volume2 className="w-5 h-5 sm:w-6 sm:h-6" />}
+                            <button onClick={toggleMute} className="p-2.5 sm:p-3 rounded-2xl bg-white/20 border-2 border-white/30 backdrop-blur-md text-white hover:bg-white/30 transition-all active:scale-95">
+                                {isMuted ? <VolumeX className="w-6 h-6" /> : <Volume2 className="w-6 h-6" />}
                             </button>
                         </div>
 
                         <div className="relative z-10 text-center w-full max-w-6xl flex flex-col items-center">
-                            <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white mb-3 drop-shadow-[0_6px_0_rgba(0,0,0,0.3)] tracking-tight leading-none uppercase">
+                            <h1 className="text-3xl sm:text-5xl md:text-6xl font-black text-white mb-2 drop-shadow-[0_4px_0_rgba(0,0,0,0.3)] tracking-tight leading-tight uppercase">
                                 Gráficos Estadísticos <span className="text-yellow-300 underline decoration-wavy decoration-pink-400">II</span>
                             </h1>
-                            <p className="text-sm sm:text-lg lg:text-xl text-purple-100 mb-6 sm:mb-10 font-bold max-w-3xl leading-relaxed">
+                            <p className="text-sm sm:text-xl text-purple-100 mb-6 sm:mb-8 font-bold max-w-3xl px-2">
                                 ¡Domina el análisis de sectores circulares, regla de tres y ángulos paso a paso! 📊✨
                             </p>
 
-                            <div className="w-full flex flex-wrap justify-center items-stretch gap-3 sm:gap-5 mb-10">
+                            <div className="w-full grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 pb-8">
                                 {STATISTICAL_EXERCISES.map((ex, idx) => (
                                     <button
                                         key={ex.id}
                                         onClick={() => startExercise(idx)}
-                                        className="w-[calc(50%-0.5rem)] md:w-[calc(33.333%-0.8rem)] lg:w-[calc(20%-1rem)] group text-left p-3 sm:p-4 rounded-[1.5rem] bg-gradient-to-br bg-opacity-90 backdrop-blur-xl border-[3px] border-white/40 hover:-translate-y-2 hover:shadow-[0_15px_30px_rgba(0,0,0,0.3)] transition-all flex flex-col relative overflow-hidden shadow-lg min-h-[8.5rem]"
-                                        style={{ backgroundImage: `linear-gradient(to bottom right, var(--tw-gradient-stops))` }}
+                                        className={`group text-left p-3.5 sm:p-4 rounded-2xl sm:rounded-[1.5rem] bg-gradient-to-br ${ex.cardBg} border-[3px] hover:-translate-y-1.5 active:scale-95 transition-all flex flex-col justify-between relative overflow-hidden shadow-lg min-h-[7.8rem] sm:min-h-[9rem]`}
                                     >
-                                        <div className={`absolute inset-0 opacity-85 ${ex.cardGradient}`}></div>
-                                        <div className="relative z-10 flex-1 flex flex-col justify-between">
-                                            <div className="flex items-center justify-between">
-                                                <span className="bg-black/30 text-white text-[10px] sm:text-xs font-black px-2 py-0.5 rounded-md uppercase tracking-widest">
-                                                    Reto {ex.id}
-                                                </span>
-                                            </div>
-                                            <div className="my-2 text-white font-black text-sm sm:text-base leading-tight drop-shadow-md">
-                                                {ex.subtitle}
-                                            </div>
-                                            <div className="flex items-center justify-between mt-1 pt-2 border-t border-white/20">
-                                                <span className="text-[11px] text-white/90 font-bold">Ver análisis</span>
-                                                <span className="bg-yellow-400 text-slate-900 w-5 h-5 rounded-full flex items-center justify-center font-black group-hover:translate-x-1 transition-transform text-xs shadow-sm">
-                                                    ➔
-                                                </span>
-                                            </div>
+                                        <div className="flex items-center justify-between w-full">
+                                            <span className="bg-black/30 text-white text-xs sm:text-sm font-black px-2.5 py-0.5 rounded-lg uppercase tracking-wider">
+                                                {ex.title}
+                                            </span>
+                                            <span className="text-white/90 text-xs sm:text-sm font-black">#{ex.id}</span>
+                                        </div>
+                                        <div className="my-2 text-white font-black text-sm sm:text-lg leading-snug drop-shadow">
+                                            {ex.subtitle}
+                                        </div>
+                                        <div className="flex items-center justify-between pt-2 border-t border-white/25 w-full">
+                                            <span className="text-xs text-white font-extrabold">Ver análisis</span>
+                                            <span className="bg-yellow-400 text-slate-900 w-6 h-6 rounded-full flex items-center justify-center font-black group-hover:translate-x-1 transition-transform text-xs shadow">
+                                                ➔
+                                            </span>
                                         </div>
                                     </button>
                                 ))}
@@ -818,120 +865,165 @@
                 );
             }
 
+            const activeSlice = selectedSector !== null ? currentExercise.baseSectors[selectedSector] : null;
+            const activeDeg = activeSlice ? Math.round((activeSlice.value / totalValue) * 360 * 10) / 10 : 0;
+            const activePct = activeSlice ? Math.round((activeSlice.value / totalValue) * 100 * 10) / 10 : 0;
+
             return (
-                <div className="w-screen h-[100dvh] bg-gradient-to-br from-[#1e1b4b] via-[#4c1d95] to-[#db2777] text-slate-800 flex flex-col p-2 sm:p-4 relative font-fun overflow-hidden">
+                <div className="w-screen h-[100dvh] bg-gradient-to-br from-[#1e1b4b] via-[#4c1d95] to-[#be185d] text-slate-800 flex flex-col p-1 sm:p-2.5 relative font-fun overflow-hidden">
                     <FloatingBackground />
                     {step === maxSteps && <Confetti />}
 
-                    <div className="shrink-0 relative z-10 w-full max-w-6xl mx-auto flex justify-between items-center mb-2 px-1">
-                        <button onClick={() => { AudioController.play('swoosh'); setView('home'); }} className="flex items-center justify-center px-4 py-2 sm:px-5 sm:py-2 rounded-[1rem] bg-white/10 border-[3px] border-white/30 backdrop-blur-md text-white font-black hover:bg-white/20 transition-all shadow-lg active:scale-95 text-sm sm:text-base hover:scale-105">
-                            <Home className="w-5 h-5 sm:mr-2" />
+                    {/* Barra Superior */}
+                    <div className="shrink-0 relative z-10 w-full max-w-7xl mx-auto flex justify-between items-center mb-1 sm:mb-2 px-1 gap-2">
+                        <button onClick={() => { AudioController.play('swoosh'); setView('home'); }} className="flex items-center justify-center px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-white/15 border-2 border-white/30 backdrop-blur-md text-white font-black hover:bg-white/25 transition-all active:scale-95 text-xs sm:text-base shrink-0">
+                            <Home className="w-4 h-4 sm:w-5 sm:h-5 sm:mr-1.5" />
                             <span className="hidden sm:inline">Portada</span>
                         </button>
 
-                        <div className="flex items-center gap-1 sm:gap-1.5 bg-black/30 p-1 sm:p-1.5 rounded-[1rem] border-2 border-white/20 backdrop-blur-md shadow-lg overflow-x-auto max-w-[60vw] scrollbar-hide">
+                        <div className="flex items-center gap-1 sm:gap-1.5 bg-black/35 p-1 rounded-xl border border-white/20 backdrop-blur-md overflow-x-auto max-w-[72vw] scrollbar-hide">
                             {STATISTICAL_EXERCISES.map((ex, i) => (
                                 <button
                                     key={ex.id}
                                     onClick={() => startExercise(i)}
-                                    className={`w-7 h-7 sm:w-9 sm:h-9 rounded-[0.7rem] font-black text-xs sm:text-sm transition-all shrink-0 ${exIdx === i ? 'bg-yellow-400 text-slate-900 scale-110 shadow-[0_0_15px_rgba(250,204,21,0.6)]' : 'text-white hover:bg-white/20'}`}
+                                    className={`w-7 h-7 sm:w-9 sm:h-9 rounded-lg font-black text-xs sm:text-base transition-all shrink-0 ${exIdx === i ? 'bg-yellow-400 text-slate-900 scale-105 shadow-[0_0_12px_rgba(250,204,21,0.8)]' : 'text-white/85 hover:bg-white/20'}`}
                                 >
                                     {ex.id}
                                 </button>
                             ))}
                         </div>
 
-                        <button onClick={toggleMute} className="p-2 sm:p-2.5 rounded-[1rem] bg-white/10 border-[3px] border-white/30 text-white hover:bg-white/20 transition-all shadow-lg active:scale-95">
-                            {isMuted ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
+                        <button onClick={toggleMute} className="p-1.5 sm:p-2 rounded-xl bg-white/15 border-2 border-white/30 text-white hover:bg-white/25 transition-all active:scale-95 shrink-0">
+                            {isMuted ? <VolumeX className="w-5 h-5 sm:w-6 sm:h-6" /> : <Volume2 className="w-5 h-5 sm:w-6 sm:h-6" />}
                         </button>
                     </div>
 
-                    {/* Contenedor Principal con división estricta 50% / 50% */}
-                    <div className="flex-1 min-h-0 relative z-10 w-full max-w-6xl mx-auto bg-white rounded-[2rem] border-[6px] sm:border-[8px] border-slate-100 shadow-[0_30px_60px_rgba(0,0,0,0.5)] flex flex-col overflow-hidden">
+                    {/* Pizarra Principal de Alto Aprovechamiento */}
+                    <div className="flex-1 min-h-0 relative z-10 w-full max-w-7xl mx-auto bg-white rounded-2xl sm:rounded-[1.8rem] border-4 sm:border-[6px] border-slate-100 shadow-2xl flex flex-col overflow-hidden">
                         
-                        {/* Banner Superior con el Enunciado */}
-                        <div className="shrink-0 bg-slate-900 border-b-[6px] border-indigo-500 px-4 py-2.5 sm:px-8 sm:py-3.5 flex flex-col items-center justify-center relative shadow-md">
-                            <div className="flex items-center gap-3 mb-1">
-                                <span className="bg-yellow-400 text-slate-900 font-black text-xs sm:text-sm px-3 py-0.5 rounded-md uppercase tracking-widest shadow-sm">
+                        {/* Enunciado Grande y Destacado */}
+                        <div className="shrink-0 bg-slate-900 border-b-4 border-indigo-500 px-3 py-2 sm:px-6 sm:py-3 flex flex-col md:flex-row items-center justify-between gap-1.5 sm:gap-4">
+                            <div className="flex items-center gap-2 shrink-0">
+                                <span className="bg-yellow-400 text-slate-900 font-black text-xs sm:text-sm px-2.5 py-0.5 rounded-md uppercase tracking-wider">
                                     {currentExercise.title}
                                 </span>
-                                <span className="text-purple-200 font-bold text-xs sm:text-sm bg-white/10 px-3 py-0.5 rounded-md">
+                                <span className="text-purple-200 font-extrabold text-xs sm:text-sm bg-white/10 px-2.5 py-0.5 rounded-md">
                                     {currentExercise.subtitle}
                                 </span>
                             </div>
-                            <div className="flex flex-col md:flex-row items-center justify-center gap-2 sm:gap-4 text-white font-black text-xs sm:text-base md:text-lg text-center w-full leading-snug">
-                                <span className="max-w-3xl">{currentExercise.enunciadoText}</span>
-                                <div className="math-enunciado shrink-0 bg-black/40 px-3.5 py-0.5 rounded-xl border border-white/20">
-                                    <MathDisplay latex={currentExercise.enunciadoLatex} />
-                                </div>
+                            <p className="text-white font-black text-xs sm:text-base md:text-lg text-center md:text-left leading-snug flex-1">
+                                {currentExercise.enunciadoText}
+                            </p>
+                            <div className="math-enunciado shrink-0 bg-black/40 px-3 py-1 rounded-xl border border-white/25">
+                                <MathDisplay latex={currentExercise.enunciadoLatex} />
                             </div>
                         </div>
 
-                        {/* Zona Central de Trabajo: 50% Izquierda Gráfico Fijo | 50% Derecha Operaciones Verticales */}
-                        <div className="flex-1 min-h-0 w-full flex flex-col md:flex-row items-center justify-center p-4 sm:p-7 gap-4 sm:gap-6 relative bg-slate-50 overflow-hidden">
-                            <div className="absolute inset-0 opacity-5 bg-[radial-gradient(#475569_2px,transparent_2px)] [background-size:30px_30px] pointer-events-none"></div>
-
-                            {/* Mitad Izquierda (50%): Gráfico Circular Fijo y Completo */}
-                            <div className="w-full md:w-1/2 h-full flex items-center justify-center z-10 shrink-0">
-                                <div className="bg-white p-4 sm:p-6 rounded-[2rem] border-4 border-slate-200/90 shadow-md flex items-center justify-center">
+                        {/* Zona Central: Gráfico Grande (Izquierda/Arriba) y Desarrollo Continuo Grande (Derecha/Abajo) */}
+                        <div className="flex-1 min-h-0 w-full flex flex-col md:flex-row items-stretch justify-between p-2 sm:p-4 gap-2 sm:gap-4 relative bg-slate-50 overflow-hidden">
+                            
+                            {/* Panel del Gráfico Circular (46% en PC, 46% alto en móvil) */}
+                            <div className="w-full md:w-[46%] h-[46%] md:h-full flex flex-col items-center justify-between z-10 shrink-0 bg-white rounded-2xl border-2 border-slate-200 p-2 sm:p-4 shadow-sm">
+                                <div className="flex-1 min-h-0 w-full flex items-center justify-center">
                                     <PieChart 
                                         baseSectors={currentExercise.baseSectors} 
-                                        sectorTexts={currentStepData.sectorTexts} 
+                                        sectorTexts={currentStepData.sectorTexts}
+                                        selectedSector={selectedSector}
+                                        onSelectSector={handleSelectSector}
                                     />
+                                </div>
+
+                                {/* Barra inferior interactiva del gráfico */}
+                                <div className="shrink-0 w-full pt-1 flex flex-wrap items-center justify-center gap-1.5">
+                                    {activeSlice ? (
+                                        <div 
+                                            onClick={() => setSelectedSector(null)}
+                                            className="animate-jellyPop cursor-pointer flex items-center gap-2 px-3 py-1 rounded-xl bg-slate-900 text-white text-xs sm:text-sm font-black shadow-md"
+                                        >
+                                            <span className="w-3 h-3 rounded-full shrink-0" style={{ backgroundColor: activeSlice.color }}></span>
+                                            <span>{activeSlice.label}:</span>
+                                            <span className="text-yellow-300">{activeDeg}°</span>
+                                            <span className="text-cyan-300">({activePct}%)</span>
+                                            <span className="text-white/60 text-[10px] ml-1">✕</span>
+                                        </div>
+                                    ) : (
+                                        currentExercise.baseSectors.map((s, idx) => (
+                                            <button
+                                                key={idx}
+                                                onClick={() => handleSelectSector(idx)}
+                                                className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-indigo-50 text-slate-800 text-xs sm:text-sm font-extrabold border border-slate-300 transition-all active:scale-95"
+                                            >
+                                                <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: s.color }}></span>
+                                                {s.label}
+                                            </button>
+                                        ))
+                                    )}
                                 </div>
                             </div>
 
-                            {/* Mitad Derecha (50%): Resolución de Arriba hacia Abajo con margen de ~1cm */}
-                            <div className="w-full md:w-1/2 h-full flex flex-col items-center justify-center z-10 p-3 sm:p-6 overflow-y-auto scrollbar-hide">
-                                <div key={`badge-${exIdx}-${step}`} className="mb-3 sm:mb-5 animate-jellyPop text-center shrink-0">
-                                    <span className={`inline-flex items-center gap-2 px-4 py-1.5 sm:px-5 sm:py-2 rounded-[1rem] font-black text-xs sm:text-base shadow-md border-2 ${step === maxSteps ? 'bg-amber-400 text-slate-900 border-yellow-200' : 'bg-gradient-to-r from-pink-600 to-purple-600 text-white border-pink-400'}`}>
+                            {/* Panel de Desarrollo Matemático Grande (54% en PC, 54% alto en móvil) */}
+                            <div className="w-full md:w-[54%] h-[54%] md:h-full flex flex-col items-center justify-center z-10 bg-white rounded-2xl border-2 border-slate-200 p-2.5 sm:p-5 shadow-sm overflow-y-auto scrollbar-hide">
+                                
+                                {/* Título del Paso */}
+                                <div key={`badge-${exIdx}-${step}`} className="mb-2 sm:mb-4 animate-jellyPop text-center shrink-0">
+                                    <span className={`inline-flex items-center gap-2 px-4 py-1.5 sm:px-5 sm:py-2 rounded-xl font-black text-xs sm:text-lg shadow-sm border-2 ${step === maxSteps ? 'bg-amber-400 text-slate-900 border-yellow-500' : 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white border-indigo-400'}`}>
                                         <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 shrink-0" /> 
                                         <span>{currentStepData.propertyText}</span>
                                     </span>
                                 </div>
 
-                                <div key={`current-${exIdx}-${step}`} className="w-full flex items-center justify-center animate-jellyPop">
-                                    <div className={`transition-all px-4 py-3 sm:px-6 sm:py-4 w-full text-center ${step === maxSteps ? 'bg-[#fde047] border-[5px] sm:border-[6px] border-[#eab308] rounded-[1.6rem] sm:rounded-[2rem] shadow-[0_12px_35px_rgba(234,179,8,0.4)] math-final' : 'bg-transparent math-current'}`}>
+                                {/* Ecuación Principal Grande */}
+                                <div key={`current-${exIdx}-${step}`} className="w-full flex-1 flex items-center justify-center animate-jellyPop">
+                                    <div className={`transition-all px-3 py-3 sm:px-6 sm:py-6 w-full text-center rounded-2xl flex items-center justify-center ${step === maxSteps ? 'bg-[#fde047] border-4 sm:border-[5px] border-[#eab308] shadow-[0_10px_30px_rgba(234,179,8,0.35)] math-final' : 'bg-slate-50/80 border-2 border-slate-200/80 math-current'}`}>
                                         <MathDisplay latex={currentStepData.latex} />
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        {/* Panel Inferior del Robot Asistente */}
-                        <div className="shrink-0 bg-white w-full px-4 py-2.5 sm:px-8 sm:py-3.5 flex items-center gap-4 sm:gap-6 border-t-[6px] border-slate-100 z-10 relative">
-                            <div className="shrink-0 drop-shadow-xl">
-                                <RobotAssistant step={step} maxSteps={maxSteps} />
-                            </div>
-                            <div className="flex-1 text-sm sm:text-lg md:text-xl font-bold text-slate-700 leading-snug bg-indigo-50/80 p-3 sm:p-4 rounded-[1.2rem] border-2 border-indigo-100 shadow-sm">
-                                <div key={`speech-${exIdx}-${step}`} className="animate-slideInRight w-full">
+                        {/* Panel del Robot Asistente con Texto Grande */}
+                        <div className="shrink-0 bg-white w-full px-3 py-2 sm:px-6 sm:py-3 flex items-center gap-3 sm:gap-5 border-t-2 border-slate-100 z-10">
+                            <RobotAssistant 
+                                step={step} 
+                                maxSteps={maxSteps} 
+                                onSpeak={() => AudioController.speak(currentStepData.robotSpeech)}
+                            />
+                            <div className="flex-1 text-xs sm:text-base md:text-lg font-extrabold text-slate-800 leading-snug bg-indigo-50/90 px-3.5 py-2 sm:px-5 sm:py-3 rounded-2xl border-2 border-indigo-100 flex items-center justify-between gap-3">
+                                <div key={`speech-${exIdx}-${step}`} className="animate-slideInRight flex-1">
                                     {currentStepData.robotSpeech}
                                 </div>
+                                <button 
+                                    onClick={() => AudioController.speak(currentStepData.robotSpeech)}
+                                    title="Escuchar explicación"
+                                    className="shrink-0 px-3 py-1.5 rounded-xl bg-indigo-600 text-white text-xs sm:text-sm font-black hover:bg-indigo-700 active:scale-95 transition-all shadow-sm"
+                                >
+                                    🔊 Voz
+                                </button>
                             </div>
                         </div>
 
                         {/* Botones de Navegación Inferiores */}
-                        <div className="shrink-0 bg-gradient-to-b from-[#eadef7] to-[#d6c1f0] p-2.5 sm:p-4 w-full flex flex-col items-center border-t-[6px] border-white z-10">
-                            <div className="flex justify-center items-stretch w-full max-w-3xl gap-3 h-12 sm:h-14">
+                        <div className="shrink-0 bg-gradient-to-b from-[#eadef7] to-[#d6c1f0] p-2 sm:p-3 w-full flex flex-col items-center border-t-2 border-white z-10">
+                            <div className="flex justify-center items-stretch w-full max-w-4xl gap-2.5 sm:gap-4 h-11 sm:h-13">
                                 <button
                                     onClick={prevStep}
                                     disabled={step === 0}
-                                    className="flex-[0.8] bg-[#d8b4fe] border-b-[5px] border-[#a855f7] text-[#581c87] rounded-l-2xl rounded-r-xl font-black text-sm sm:text-lg flex items-center justify-center gap-1 active:border-b-0 active:translate-y-[5px] disabled:opacity-40 transition-all hover:bg-[#e9d5ff]"
+                                    className="flex-[0.8] bg-[#d8b4fe] border-b-4 border-[#a855f7] text-[#581c87] rounded-xl font-black text-sm sm:text-lg flex items-center justify-center gap-1 active:border-b-0 active:translate-y-1 disabled:opacity-40 transition-all hover:bg-[#e9d5ff]"
                                 >
-                                    <ChevronLeft className="w-5 h-5 sm:w-7 sm:h-7 stroke-[4px]" />
-                                    <span className="hidden sm:inline">Atrás</span>
+                                    <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 stroke-[3.5px]" />
+                                    <span>Atrás</span>
                                 </button>
 
-                                <div className="bg-[#a855f7] text-white font-black px-4 sm:px-6 text-base sm:text-xl flex items-center justify-center rounded-2xl border-b-[5px] border-[#7e22ce] shadow-inner whitespace-nowrap min-w-[5rem]">
-                                    Paso {step}/{maxSteps}
+                                <div className="bg-[#9333ea] text-white font-black px-4 sm:px-6 text-sm sm:text-lg flex items-center justify-center rounded-xl border-b-4 border-[#6b21a8] shadow-inner whitespace-nowrap">
+                                    Paso {step + 1}/{maxSteps + 1}
                                 </div>
 
                                 <button
                                     onClick={nextStep}
-                                    className={`flex-[2] border-b-[5px] text-white rounded-r-2xl rounded-l-xl font-black text-base sm:text-xl md:text-2xl flex items-center justify-center gap-2 active:border-b-0 active:translate-y-[5px] transition-all shadow-sm hover:brightness-110 ${
+                                    className={`flex-[1.8] border-b-4 text-white rounded-xl font-black text-sm sm:text-xl flex items-center justify-center gap-2 active:border-b-0 active:translate-y-1 transition-all shadow-sm hover:brightness-110 ${
                                         step === maxSteps
                                             ? 'bg-gradient-to-r from-[#10b981] to-[#047857] border-[#065f46] animate-pulse'
-                                            : 'bg-gradient-to-r from-[#f59e0b] to-[#f97316] border-[#c2410c]'
+                                            : 'bg-gradient-to-r from-[#f59e0b] to-[#ea580c] border-[#c2410c]'
                                     }`}
                                 >
                                     <span>
@@ -941,7 +1033,7 @@
                                             ? `Ir al Reto ${exIdx + 2}`
                                             : '¡Volver a la Portada!'}
                                     </span>
-                                    <ChevronRight className="w-5 h-5 sm:w-7 sm:h-7 stroke-[4px]" />
+                                    <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 stroke-[3.5px]" />
                                 </button>
                             </div>
                         </div>
